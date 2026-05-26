@@ -36,7 +36,7 @@ class German extends Stem
         $this->word = UTF8::strtolower($word);
 
         // First, replace ß by ss
-        $this->word = UTF8::str_replace('ß', 'ss', $this->word);
+        $this->word = str_replace('ß', 'ss', $this->word);
 
         // put u and y between vowels into upper case
         $this->word = preg_replace('#(['.$this->plainVowels.'])y(['.$this->plainVowels.'])#u', '$1Y$2', $this->word);
@@ -211,6 +211,6 @@ class German extends Stem
     private function finish()
     {
         // turn U and Y back into lower case, and remove the umlaut accent from a, o and u.
-        $this->word = UTF8::str_replace(array('U', 'Y', 'ä', 'ü', 'ö'), array('u', 'y', 'a', 'u', 'o'), $this->word);
+        $this->word = str_replace(array('U', 'Y', 'ä', 'ü', 'ö'), array('u', 'y', 'a', 'u', 'o'), $this->word);
     }
 }

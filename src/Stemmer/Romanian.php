@@ -329,6 +329,6 @@ class Romanian extends Stem
     private function finish()
     {
         // Turn I, U back into i, u
-        $this->word = UTF8::str_replace(array('I', 'U'), array('i', 'u'), $this->word);
+        $this->word = str_replace(array('I', 'U'), array('i', 'u'), $this->word);
     }
 }

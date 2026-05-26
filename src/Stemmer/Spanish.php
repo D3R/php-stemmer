@@ -343,6 +343,6 @@ class Spanish extends Stem
      */
     private function finish()
     {
-        $this->word = UTF8::str_replace(array('á', 'í', 'ó', 'é', 'ú'), array('a', 'i', 'o', 'e', 'u'), $this->word);
+        $this->word = str_replace(array('á', 'í', 'ó', 'é', 'ú'), array('a', 'i', 'o', 'e', 'u'), $this->word);
     }
 }

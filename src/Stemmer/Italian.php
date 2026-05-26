@@ -32,7 +32,7 @@ class Italian extends Stem
         $this->word = UTF8::strtolower($word);
 
         // First, replace all acute accents by grave accents.
-        $this->word = UTF8::str_replace(array('á', 'é', 'í', 'ó', 'ú'), array('à', 'è', 'ì', 'ò', 'ù'), $this->word);
+        $this->word = str_replace(array('á', 'é', 'í', 'ó', 'ú'), array('à', 'è', 'ì', 'ò', 'ù'), $this->word);
 
         //And, as in French, put u after q, and u, i between vowels into upper case. (See note on vowel marking.) The vowels are then
         $this->word = preg_replace('#([q])u#u', '$1U', $this->word);
@@ -284,6 +284,6 @@ class Italian extends Stem
      */
     private function finish()
     {
-        $this->word = UTF8::str_replace(array('I', 'U'), array('i', 'u'), $this->word);
+        $this->word = str_replace(array('I', 'U'), array('i', 'u'), $this->word);
     }
 }

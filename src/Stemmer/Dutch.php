@@ -30,7 +30,7 @@ class Dutch extends Stem
         $this->word = UTF8::strtolower($word);
 
         // First, remove all umlaut and acute accents.
-        $this->word = UTF8::str_replace(
+        $this->word = str_replace(
             array('ä', 'ë', 'ï', 'ö', 'ü', 'á', 'é', 'í', 'ó', 'ú'),
             array('a', 'e', 'i', 'o', 'u', 'a', 'e', 'i', 'o', 'u'),
             $this->word);
@@ -301,6 +301,6 @@ class Dutch extends Stem
      */
     private function finish()
     {
-        $this->word = UTF8::str_replace(array('I', 'Y'), array('i', 'y'), $this->word);
+        $this->word = str_replace(array('I', 'Y'), array('i', 'y'), $this->word);
     }
 }

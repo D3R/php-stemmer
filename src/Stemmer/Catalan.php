@@ -162,7 +162,7 @@ class Catalan extends Stem
         // atius atives ativa ativitat ativitats ible ibles assa asses assos ent ents íssim íssima íssims íssimes
         // ìssem ìsseu ìssin ims ima imes isme ista ismes istes inia inies íinia ínies ita ites triu trius oses osos
         // ient otes ots
-        // 
+        //
         //      delete if in R1
         if (($position = $this->search(self::$standard_suffix_1a)) !== false) {
             if ($this->inR1($position)) {
@@ -294,7 +294,7 @@ class Catalan extends Stem
      */
     private function finish()
     {
-        $this->word = UTF8::str_replace(
+        $this->word = str_replace(
             ['á', 'é', 'í', 'ó', 'ú', 'à', 'è', 'ì', 'ò', 'ï', 'ü', '·'],
             ['a', 'e', 'i', 'o', 'u', 'a', 'e', 'i', 'o', 'i', 'u', '.'],
             $this->word

@@ -469,7 +469,7 @@ class English extends Stem
 
     private function finish()
     {
-        $this->word = UTF8::str_replace('Y', 'y', $this->word);
+        $this->word = str_replace('Y', 'y', $this->word);
     }
 
     private function exceptionR1()

@@ -29,7 +29,7 @@ class Portuguese extends Stem
 
         $this->word = UTF8::strtolower($word);
 
-        $this->word = UTF8::str_replace(array('ã', 'õ'), array('a~', 'o~'), $this->word);
+        $this->word = str_replace(array('ã', 'õ'), array('a~', 'o~'), $this->word);
 
         $this->rv();
         $this->r1();
@@ -278,6 +278,6 @@ class Portuguese extends Stem
     private function finish()
     {
         // turn U and Y back into lower case, and remove the umlaut accent from a, o and u.
-        $this->word = UTF8::str_replace(array('a~', 'o~'), array('ã', 'õ'), $this->word);
+        $this->word = str_replace(array('a~', 'o~'), array('ã', 'õ'), $this->word);
     }
 }

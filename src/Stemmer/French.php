@@ -480,7 +480,7 @@ class French extends Stem
      */
     private function finish()
     {
-        $this->word = UTF8::str_replace(array('I','U','Y'), array('i', 'u', 'y'), $this->word);
+        $this->word = str_replace(array('I','U','Y'), array('i', 'u', 'y'), $this->word);
     }
 
     /**
