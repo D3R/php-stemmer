@@ -106,7 +106,7 @@ class Catalan extends Stem
 
         // Step 1b: Verb suffix
         // Do step 1b if no ending was removed by step 1a.
-        if ($this->word == $word) {
+        if ($this->word === $word) {
             $this->step1b();
         }
 
@@ -125,11 +125,9 @@ class Catalan extends Stem
 
     private function step0()
     {
-        if (($position = $this->search(static::$attached_pronoun)) !== false) {
-            if ($this->inR1($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
-                return true;
-            }
+        if ($position = $this->search(static::$attached_pronoun) !== false && $this->inR1($position)) {
+            $this->word = UTF8::substr($this->word, 0, $position);
+            return true;
         }
         return false;
     }

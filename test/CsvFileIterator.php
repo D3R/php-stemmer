@@ -10,7 +10,7 @@ class CsvFileIterator implements \Iterator
     public function __construct($file)
     {
         if (! ($this->file = fopen($file, 'r'))) {
-            die('Can\'t open file '.$this->file)."\n";
+            die('Can\'t open file '.$this->file);
         }
     }
 

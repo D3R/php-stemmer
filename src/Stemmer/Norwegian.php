@@ -15,7 +15,7 @@ class Norwegian extends Stem
     /**
      * All norwegian vowels
      */
-    protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'y', 'æ', 'å', 'ø');
+    protected static $vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'æ', 'å', 'ø'];
 
     /**
      * {@inheritdoc}
@@ -57,7 +57,7 @@ class Norwegian extends Stem
     private function hasValidSEnding($word)
     {
         $lastLetter = UTF8::substr($word, -1, 1);
-        if (in_array($lastLetter, array('b', 'c', 'd', 'f', 'g', 'h', 'j', 'l', 'm', 'n', 'o', 'p', 'r', 't', 'v', 'y', 'z'))) {
+        if (in_array($lastLetter, ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'l', 'm', 'n', 'o', 'p', 'r', 't', 'v', 'y', 'z'])) {
             return true;
         }
         if ($lastLetter == 'k') {
@@ -77,30 +77,31 @@ class Norwegian extends Stem
     {
         //  erte   ert
         //      replace with er
-        if ( ($position = $this->searchIfInR1(array('erte', 'ert'))) !== false) {
+        if ( ($position = $this->searchIfInR1(['erte', 'ert'])) !== false) {
             $this->word = preg_replace('#(erte|ert)$#u', 'er', $this->word);
             return true;
         }
 
          // a   e   ede   ande   ende   ane   ene   hetene   en   heten   ar   er   heter   as   es   edes   endes   enes   hetenes   ens   hetens   ers   ets   et   het   ast
         //      delete
-        if ( ($position = $this->searchIfInR1(array(
+        if ( ($position = $this->searchIfInR1([
             'hetenes', 'hetene', 'hetens', 'heten', 'endes', 'heter', 'ande', 'ende', 'enes', 'edes', 'ede', 'ane',
             'ene', 'het', 'ers', 'ets', 'ast', 'ens', 'en', 'ar', 'er', 'as', 'es', 'et', 'a', 'e'
-        ))) !== false) {
+        ])) !== false) {
             $this->word = UTF8::substr($this->word, 0, $position);
             return true;
         }
 
         //  s
         //      delete if preceded by a valid s-ending
-        if ( ($position = $this->searchIfInR1(array('s'))) !== false) {
+        if ( ($position = $this->searchIfInR1(['s'])) !== false) {
             $word = UTF8::substr($this->word, 0, $position);
             if ($this->hasValidSEnding($word)) {
                 $this->word = $word;
             }
             return true;
         }
+        return null;
     }
 
     /**
@@ -109,7 +110,7 @@ class Norwegian extends Stem
      */
     private function step2()
     {
-        if ($this->searchIfInR1(array('dt', 'vt')) !== false) {
+        if ($this->searchIfInR1(['dt', 'vt']) !== false) {
             $this->word = UTF8::substr($this->word, 0, -1);
         }
     }
@@ -121,9 +122,9 @@ class Norwegian extends Stem
     private function step3()
     {
         // leg   eleg   ig   eig   lig   elig   els   lov   elov   slov   hetslov
-        if ( ($position = $this->searchIfInR1(array(
+        if ( ($position = $this->searchIfInR1([
             'hetslov', 'eleg', 'elov', 'slov', 'elig', 'eig', 'lig', 'els', 'lov', 'leg', 'ig'
-        ))) !== false) {
+        ])) !== false) {
             $this->word = UTF8::substr($this->word, 0, $position);
         }
     }

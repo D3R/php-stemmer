@@ -16,7 +16,7 @@ return RectorConfig::configure()
     ->withPreparedSets(
         codeQuality: true,
         deadCode: true,
-        typeDeclarations: true,
+        // typeDeclarations: true,
     )
     ->withComposerBased(
         phpunit: true,
