@@ -84,7 +84,7 @@ class Catalan extends Stem
     /**
      * {@inheritdoc}
      */
-    public function stem($word)
+    public function stem($word): string
     {
         // we do ALL in UTF-8
         if (!UTF8::is_utf8($word)) {
@@ -123,7 +123,7 @@ class Catalan extends Stem
      * and delete it in R1.
      */
 
-    private function step0()
+    private function step0(): bool
     {
         if ($position = $this->search(static::$attached_pronoun) !== false && $this->inR1($position)) {
             $this->word = UTF8::substr($this->word, 0, $position);
@@ -135,7 +135,7 @@ class Catalan extends Stem
     /**
      * Step 1a: Standard suffix
      */
-    private function step1a()
+    private function step1a(): bool
     {
         // Run step 1a.2 before 1a.1, since they overlap on `cions` (1a.1) and `acions` (1a.2)
         //
@@ -211,7 +211,7 @@ class Catalan extends Stem
      *      Search for the longest among the following suffixes in r1 and r2, and
      *      perform the action indicated.
      */
-    private function step1b()
+    private function step1b(): bool
     {
         // Step 1b.1
         //
@@ -261,7 +261,7 @@ class Catalan extends Stem
      * Search for the longest among the following suffixes in R1, and perform
      * the action indicated.
      */
-    private function step2()
+    private function step2(): bool
     {
         // Step 2.1
         // residual suffix
@@ -290,7 +290,7 @@ class Catalan extends Stem
      * And finally:
      * Remove accents and l aggeminades
      */
-    private function finish()
+    private function finish(): void
     {
         $this->word = str_replace(
             ['á', 'é', 'í', 'ó', 'ú', 'à', 'è', 'ì', 'ò', 'ï', 'ü', '·'],

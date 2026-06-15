@@ -85,14 +85,14 @@ class English extends Stem
      * Step 0
      * Remove ', 's, 's'
      */
-    private function step0()
+    private function step0(): void
     {
         if ( ($position = $this->search(["'s'", "'s", "'"])) !== false) {
             $this->word = UTF8::substr($this->word, 0, $position);
         }
     }
 
-    private function step1a()
+    private function step1a(): bool
     {
         // sses
         //      replace by ss
@@ -139,7 +139,7 @@ class English extends Stem
     /**
      * Step 1b
      */
-    private function step1b()
+    private function step1b(): bool
     {
         // eed   eedly+
         //      replace by ee if in R1
@@ -184,7 +184,7 @@ class English extends Stem
     /**
      * Step 1c: *
      */
-    private function step1c()
+    private function step1c(): bool
     {
         // replace suffix y or Y by i if preceded by a non-vowel
         // which is not the first letter of the word (so cry -> cri, by -> by, say -> say)
@@ -212,7 +212,7 @@ class English extends Stem
      * Step 2
      *  Search for the longest among the following suffixes, and, if found and in R1, perform the action indicated.
      */
-    private function step2()
+    private function step2(): bool
     {
         // iveness   iviti:   replace by ive
         if ( ($position = $this->search(['iveness', 'iviti'])) !== false) {
@@ -355,7 +355,7 @@ class English extends Stem
      * Step 3:
      * Search for the longest among the following suffixes, and, if found and in R1, perform the action indicated.
      */
-    private function step3()
+    private function step3(): bool
     {
         // ational+:   replace by ate
         if ($this->searchIfInR1(['ational']) !== false) {
@@ -400,7 +400,7 @@ class English extends Stem
      * Step 4
      * Search for the longest among the following suffixes, and, if found and in R2, perform the action indicated.
      */
-    private function step4()
+    private function step4(): bool
     {
         //    ement  ance   ence  able ible   ant  ment   ent   ism   ate   iti   ous   ive   ize al  er   ic
         //      delete
@@ -434,7 +434,7 @@ class English extends Stem
      * Step 5: *
      * Search for the the following suffixes, and, if found, perform the action indicated.
      */
-    private function step5()
+    private function step5(): bool
     {
         // e
         //      delete if in R2, or in R1 and not preceded by a short syllable
@@ -467,12 +467,12 @@ class English extends Stem
         return false;
     }
 
-    private function finish()
+    private function finish(): void
     {
         $this->word = str_replace('Y', 'y', $this->word);
     }
 
-    private function exceptionR1()
+    private function exceptionR1(): void
     {
         if (Utf8::strpos($this->word, 'gener') === 0) {
             $this->r1 = UTF8::substr($this->word, 5);
@@ -492,7 +492,7 @@ class English extends Stem
      *  1/ Stem certain special words as follows,
      *  2/ If one of the following is found, leave it invariant,
      */
-    private function exception1()
+    private function exception1(): ?string
     {
         $exceptions = [
             'skis'   => 'ski',
@@ -522,7 +522,7 @@ class English extends Stem
     /**
      * Following step 1a, leave the following invariant,
      */
-    private function exception2()
+    private function exception2(): ?string
     {
         $exceptions = [
             'inning' => 'inning',
@@ -541,10 +541,8 @@ class English extends Stem
     /**
      *  A word is called short if it ends in a short syllable, and if R1 is null.
      *  Note : R1 not really null, but the word at this state must be smaller than r1 index
-     *
-     *  @return boolean
      */
-    private function isShort()
+    private function isShort(): bool
     {
         $length = UTF8::strlen($this->word);
         return ( ($this->searchShortSyllabe(-3, 3) || $this->searchShortSyllabe(-2, 2)) && ($length == $this->r1Index) );
@@ -557,7 +555,7 @@ class English extends Stem
      *  So rap, trap, entrap end with a short syllable, and ow, on, at are classed as short syllables.
      *  But uproot, bestow, disturb do not end with a short syllable.
      */
-    private function searchShortSyllabe($from, $nbLetters)
+    private function searchShortSyllabe(int $from, int $nbLetters)
     {
         $length = UTF8::strlen($this->word);
 
@@ -569,14 +567,14 @@ class English extends Stem
         }
 
         // (a) is just for beginning of the word
-        if ( ($nbLetters == 2) && ($from != 0) ) {
+        if ( ($nbLetters === 2) && ($from != 0) ) {
             return false;
         }
 
         $first = UTF8::substr($this->word, $from, 1);
         $second = UTF8::substr($this->word, ($from+1), 1);
 
-        if ($nbLetters == 2 && (in_array($first, self::$vowels) && !in_array($second, self::$vowels))) {
+        if ($nbLetters === 2 && (in_array($first, self::$vowels) && !in_array($second, self::$vowels))) {
             return true;
         }
 

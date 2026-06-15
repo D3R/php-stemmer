@@ -67,9 +67,8 @@ class Dutch extends Stem
     /**
      * Define a valid s-ending as a non-vowel other than j.
      * @param string $ending
-     * @return boolean
      */
-    private function hasValidSEnding($word)
+    private function hasValidSEnding(string $word): bool
     {
         $lastLetter = UTF8::substr($word, -1, 1);
         return !in_array($lastLetter, array_merge(self::$vowels, ['j']));
@@ -80,7 +79,7 @@ class Dutch extends Stem
      * @param string $ending
      * @return boolean
      */
-    private function hasValidEnEnding($word)
+    private function hasValidEnEnding(string $word)
     {
         $lastLetter = UTF8::substr($word, -1, 1);
         if (in_array($lastLetter, self::$vowels)) {
@@ -94,7 +93,7 @@ class Dutch extends Stem
     /**
      *  Define undoubling the ending as removing the last letter if the word ends kk, dd or tt.
      */
-    private function unDoubling()
+    private function unDoubling(): void
     {
         if ($this->search(['kk', 'dd', 'tt']) !== false) {
             $this->word = UTF8::substr($this->word, 0, -1);
@@ -105,7 +104,7 @@ class Dutch extends Stem
      * Step 1
      * Search for the longest among the following suffixes, and perform the action indicated
      */
-    private function step1()
+    private function step1(): bool
     {
         // heden
         //      replace with heid if in R1
@@ -148,7 +147,7 @@ class Dutch extends Stem
      * Step 2
      * Delete suffix e if in R1 and preceded by a non-vowel, and then undouble the ending
      */
-    private function step2()
+    private function step2(): bool
     {
         if ($position = $this->search(['e']) !== false && $this->inR1($position)) {
             $letter = UTF8::substr($this->word, -2, 1);
@@ -167,7 +166,7 @@ class Dutch extends Stem
      * Step 3a: heid
      * delete heid if in R2 and not preceded by c, and treat a preceding en as in step 1(b)
      */
-    private function step3a()
+    private function step3a(): void
     {
         if ($position = $this->search(['heid']) !== false && $this->inR2($position)) {
             $letter = UTF8::substr($this->word, -5, 1);
@@ -190,7 +189,7 @@ class Dutch extends Stem
      * Step 3b: d-suffixe
      * Search for the longest among the following suffixes, and perform the action indicated.
      */
-    private function step3b($removedE)
+    private function step3b($removedE): bool
     {
         // end   ing
         //      delete if in R2
@@ -261,7 +260,7 @@ class Dutch extends Stem
      * If the words ends CVD, where C is a non-vowel, D is a non-vowel other than I, and V is double a, e, o or u,
      * remove one of the vowels from V (for example, maan -> man, brood -> brod).
      */
-    private function step4()
+    private function step4(): ?bool
     {
         // D is a non-vowel other than I
         $d = UTF8::substr($this->word, -1, 1);
@@ -291,7 +290,7 @@ class Dutch extends Stem
      * Finally
      * Turn I and Y back into lower case.
      */
-    private function finish()
+    private function finish(): void
     {
         $this->word = str_replace(['I', 'Y'], ['i', 'y'], $this->word);
     }

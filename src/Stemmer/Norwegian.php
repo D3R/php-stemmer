@@ -20,7 +20,7 @@ class Norwegian extends Stem
     /**
      * {@inheritdoc}
      */
-    public function stem($word)
+    public function stem($word): string
     {
         // we do ALL in UTF-8
         if (!UTF8::is_utf8($word)) {
@@ -52,9 +52,8 @@ class Norwegian extends Stem
      * or k not preceded by a vowel
      *
      * @param string $ending
-     * @return boolean
      */
-    private function hasValidSEnding($word)
+    private function hasValidSEnding(string $word): bool
     {
         $lastLetter = UTF8::substr($word, -1, 1);
         if (in_array($lastLetter, ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'l', 'm', 'n', 'o', 'p', 'r', 't', 'v', 'y', 'z'])) {
@@ -73,7 +72,7 @@ class Norwegian extends Stem
      * Step 1
      * Search for the longest among the following suffixes in R1, and perform the action indicated.
      */
-    private function step1()
+    private function step1(): ?bool
     {
         //  erte   ert
         //      replace with er
@@ -108,7 +107,7 @@ class Norwegian extends Stem
      * Step 2
      * If the word ends dt or vt in R1, delete the t.
      */
-    private function step2()
+    private function step2(): void
     {
         if ($this->searchIfInR1(['dt', 'vt']) !== false) {
             $this->word = UTF8::substr($this->word, 0, -1);
@@ -119,7 +118,7 @@ class Norwegian extends Stem
      * Step 3:
      * Search for the longest among the following suffixes in R1, and if found, delete.
      */
-    private function step3()
+    private function step3(): void
     {
         // leg   eleg   ig   eig   lig   elig   els   lov   elov   slov   hetslov
         if ( ($position = $this->searchIfInR1([

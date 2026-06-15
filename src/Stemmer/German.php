@@ -63,7 +63,7 @@ class German extends Stem
     /**
      * Step 1
      */
-    private function step1()
+    private function step1(): bool
     {
         // delete if in R1
         if ( ($position = $this->search(['em', 'ern', 'er'])) !== false) {
@@ -105,7 +105,7 @@ class German extends Stem
     /**
      * Step 2
      */
-    private function step2()
+    private function step2(): bool
     {
         // en   er   est
         //      delete if in R1
@@ -137,7 +137,7 @@ class German extends Stem
     /**
      * Step 3: d-suffixes
      */
-    private function step3()
+    private function step3(): bool
     {
         // end   ung
         //      delete if in R2
@@ -204,7 +204,7 @@ class German extends Stem
     /**
      * Finally
      */
-    private function finish()
+    private function finish(): void
     {
         // turn U and Y back into lower case, and remove the umlaut accent from a, o and u.
         $this->word = str_replace(['U', 'Y', 'ä', 'ü', 'ö'], ['u', 'y', 'a', 'u', 'o'], $this->word);

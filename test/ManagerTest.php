@@ -9,7 +9,7 @@ use Wamania\Snowball\StemmerManager;
 
 class ManagerTest extends TestCase
 {
-    public function testManager()
+    public function testManager(): void
     {
         $stemmerManager = new StemmerManager();
 

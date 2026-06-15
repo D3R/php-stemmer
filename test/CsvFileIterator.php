@@ -20,7 +20,7 @@ class CsvFileIterator implements \Iterator
     }
 
     #[\ReturnTypeWillChange]
-    public function rewind()
+    public function rewind(): void
     {
         rewind($this->file);
         //$this->current = fgetcsv($this->file, null, "\t");
@@ -52,7 +52,7 @@ class CsvFileIterator implements \Iterator
     }
 
     #[\ReturnTypeWillChange]
-    public function next()
+    public function next(): void
     {
         $line = fgets($this->file);
         $current = explode(' ', $line);

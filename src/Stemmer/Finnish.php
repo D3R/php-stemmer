@@ -36,7 +36,7 @@ class Finnish extends Stem
     /**
      * {@inheritdoc}
      */
-    public function stem($word)
+    public function stem($word): string
     {
         // we do ALL in UTF-8
         if (! UTF8::is_utf8($word)) {
@@ -69,7 +69,7 @@ class Finnish extends Stem
      *
      * @return boolean True when something is done.
      */
-    private function step1()
+    private function step1(): ?bool
     {
         // (a) kin   kaan   kään   ko   kö   han   hän   pa   pä
         //      delete if preceded by n, t or a vowel
@@ -107,7 +107,7 @@ class Finnish extends Stem
      *
      * @return boolean True when something is done.
      */
-    private function step2()
+    private function step2(): ?bool
     {
         // si
         //  delete if not preceded by k
@@ -197,7 +197,7 @@ class Finnish extends Stem
      *
      * @return boolean True when something is done.
      */
-    private function step3()
+    private function step3(): ?bool
     {
         // hXn
         // delete if preceded by X, where X is a V other than u (a/han, e/hen etc)
@@ -312,7 +312,7 @@ class Finnish extends Stem
      *
      * @return boolean True when something is done.
      */
-    private function step4()
+    private function step4(): ?bool
     {
         // mpi   mpa   mpä   mmi   mma   mmä
         // delete if not preceded by po
@@ -347,7 +347,7 @@ class Finnish extends Stem
      *
      * @return boolean True when something is done.
      */
-    private function step5()
+    private function step5(): ?bool
     {
         if ($this->_removedInStep3) {
             if (($position = $this->searchIfInR1(['i', 'j'])) !== false) {
@@ -388,7 +388,7 @@ class Finnish extends Stem
      * Do in turn steps (a), (b), (c), (d), restricting all tests to the
      * region R1.
      */
-    private function step6()
+    private function step6(): void
     {
         // a) If R1 ends LV
         // delete the last letter

@@ -20,7 +20,7 @@ class Romanian extends Stem
     /**
      * {@inheritdoc}
      */
-    public function stem($word)
+    public function stem($word): ?string
     {
         // we do ALL in UTF-8
         if (!UTF8::is_utf8($word)) {
@@ -65,9 +65,8 @@ class Romanian extends Stem
     /**
      * Step 0: Removal of plurals (and other simplifications)
      * Search for the longest among the following suffixes, and, if it is in R1, perform the action indicated.
-     * @return boolean
      */
-    private function step0()
+    private function step0(): bool
     {
         // ul   ului
         //      delete
@@ -143,9 +142,8 @@ class Romanian extends Stem
      * Step 1: Reduction of combining suffixes
      * Search for the longest among the following suffixes, and, if it is in R1, preform the replacement action indicated.
      * Then repeat this step until no replacement occurs.
-     * @return boolean
      */
-    private function step1()
+    private function step1(): bool
     {
         // abilitate   abilitati   abilităi   abilităţi
         //      replace with abil
@@ -209,9 +207,8 @@ class Romanian extends Stem
     /**
      * Step 2: Removal of 'standard' suffixes
      * Search for the longest among the following suffixes, and, if it is in R2, perform the action indicated.
-     * @return boolean
      */
-    private function step2()
+    private function step2(): bool
     {
         // atori   itate   itati, ităţi, abila   abile   abili   abilă, ibila   ibile   ibili   ibilă
         // anta, ante, anti, antă, ator, ibil, oasa   oasă   oase, ităi, abil
@@ -262,7 +259,7 @@ class Romanian extends Stem
      * Do step 3 if no suffix was removed either by step 1 or step 2.
      * @return boolean
      */
-    private function step3()
+    private function step3(): ?bool
     {
         // are   ere   ire   âre   ind   ând   indu   ându   eze   ească   ez   ezi   ează   esc   eşti
         // eşte   ăsc   ăşti   ăşte   am   ai   au   eam   eai   ea   eaţi   eau   iam   iai   ia   iaţi
@@ -311,7 +308,7 @@ class Romanian extends Stem
     /**
      * Step 4: Removal of final vowel
      */
-    private function step4()
+    private function step4(): bool
     {
         // Search for the longest among the suffixes "a   e   i   ie   ă " and, if it is in RV, delete it.
         if ( $position = $this->search(['a', 'ie', 'e', 'i', 'ă']) !== false && $this->inRv($position)) {
@@ -325,7 +322,7 @@ class Romanian extends Stem
      * Finally
      * Turn I, U back into i, u
      */
-    private function finish()
+    private function finish(): void
     {
         // Turn I, U back into i, u
         $this->word = str_replace(['I', 'U'], ['i', 'u'], $this->word);

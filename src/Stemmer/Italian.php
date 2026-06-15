@@ -63,7 +63,7 @@ class Italian extends Stem
     /**
      * Step 0: Attached pronoun
      */
-    private function step0()
+    private function step0(): bool
     {
         // Search for the longest among the following suffixes
         if ( ($position = $this->search([
@@ -77,7 +77,7 @@ class Italian extends Stem
             // following one of (in RV)
              // a
             $a = ['ando', 'endo'];
-            $a = array_map(function($item) use ($suffixe) {
+            $a = array_map(function(string $item) use ($suffixe): string {
                 return $item . $suffixe;
             }, $a);
             // In case of (a) the suffix is deleted
@@ -87,7 +87,7 @@ class Italian extends Stem
 
             //b
             $b = ['ar', 'er', 'ir'];
-            $b = array_map(function($item) use ($suffixe) {
+            $b = array_map(function(string $item) use ($suffixe): string {
                 return $item . $suffixe;
             }, $b);
             // in case (b) it is replace by e
@@ -104,7 +104,7 @@ class Italian extends Stem
     /**
      * Step 1: Standard suffix removal
      */
-    private function step1()
+    private function step1(): bool
     {
         // amente
         //      delete if in R1
@@ -230,7 +230,7 @@ class Italian extends Stem
      * Step 2: Verb suffixes
      * Search for the longest among the following suffixes in RV, and if found, delete.
      */
-    private function step2()
+    private function step2(): void
     {
         if ( ($position = $this->searchIfInRv([
             'assimo', 'assero', 'eranno', 'erebbero', 'erebbe', 'eremmo', 'ereste', 'eresti', 'essero', 'iranno', 'irebbero', 'irebbe', 'iremmo',
@@ -249,7 +249,7 @@ class Italian extends Stem
      * Step 3a
      * Delete a final a, e, i, o, à, è, ì or ò if it is in RV, and a preceding i if it is in RV
      */
-    private function step3a()
+    private function step3a(): bool
     {
         if ($this->searchIfInRv(['a', 'e', 'i', 'o', 'à', 'è', 'ì', 'ò']) !== false) {
             $this->word = UTF8::substr($this->word, 0, -1);
@@ -266,7 +266,7 @@ class Italian extends Stem
      * Step 3b
      * Replace final ch (or gh) with c (or g) if in RV (crocch -> crocc)
      */
-    private function step3b()
+    private function step3b(): void
     {
         if ($this->searchIfInRv(['ch']) !== false) {
             $this->word = preg_replace('#(ch)$#u', 'c', $this->word);
@@ -280,7 +280,7 @@ class Italian extends Stem
      * Finally
      * turn I and U back into lower case
      */
-    private function finish()
+    private function finish(): void
     {
         $this->word = str_replace(['I', 'U'], ['i', 'u'], $this->word);
     }

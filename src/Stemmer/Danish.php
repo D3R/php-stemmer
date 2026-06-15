@@ -52,9 +52,8 @@ class Danish extends Stem
      * a   b   c   d   f   g   h   j   k   l   m   n   o   p   r   t   v   y   z   å
      *
      * @param string $ending
-     * @return boolean
      */
-    private function hasValidSEnding($word)
+    private function hasValidSEnding(string $word): bool
     {
         $lastLetter = UTF8::substr($word, -1, 1);
         return in_array($lastLetter, ['a', 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 't', 'v', 'y', 'z', 'å']);
@@ -64,7 +63,7 @@ class Danish extends Stem
      * Step 1
      * Search for the longest among the following suffixes in R1, and perform the action indicated.
      */
-    private function step1()
+    private function step1(): ?bool
     {
         // hed   ethed   ered   e   erede   ende   erende   ene   erne   ere   en   heden   eren   er   heder   erer
         // heds   es   endes   erendes   enes   ernes   eres   ens   hedens   erens   ers   ets   erets   et   eret
@@ -95,7 +94,7 @@ class Danish extends Stem
      * Search for one of the following suffixes in R1, and if found delete the last letter.
      *      gd   dt   gt   kt
      */
-    private function step2()
+    private function step2(): void
     {
         if ($this->searchIfInR1(['gd', 'dt', 'gt', 'kt']) !== false) {
             $this->word = UTF8::substr($this->word, 0, -1);
@@ -105,7 +104,7 @@ class Danish extends Stem
     /**
      * Step 3:
      */
-    private function step3()
+    private function step3(): ?bool
     {
         // If the word ends igst, remove the final st.
         if ($this->search(['igst']) !== false) {
@@ -133,7 +132,7 @@ class Danish extends Stem
      * Step 4: undouble
      * If the word ends with double consonant in R1, remove one of the consonants.
      */
-    private function step4()
+    private function step4(): bool
     {
         $length = UTF8::strlen($this->word);
         if (!$this->inR1(($length-1))) {

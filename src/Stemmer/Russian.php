@@ -54,7 +54,7 @@ class Russian extends Stem
     /**
      * {@inheritdoc}
      */
-    public function stem($word)
+    public function stem($word): string
     {
         // we do ALL in UTF-8
         if (!UTF8::is_utf8($word)) {
@@ -82,7 +82,7 @@ class Russian extends Stem
      * Otherwise try and remove a REFLEXIVE ending, and then search in turn for (1) an ADJECTIVAL, (2) a VERB or (3) a NOUN ending.
      * As soon as one of the endings (1) to (3) is found remove it, and terminate step 1.
      */
-    private function step1()
+    private function step1(): bool
     {
         // Search for a PERFECTIVE GERUND ending.
         // group 1
@@ -138,7 +138,7 @@ class Russian extends Stem
     /**
      * Step 2: If the word ends with и (i), remove it.
      */
-    private function step2()
+    private function step2(): bool
     {
         if ($position = $this->searchIfInRv(['и']) !== false && $this->inRv($position)) {
             $this->word = UTF8::substr($this->word, 0, $position);
@@ -151,7 +151,7 @@ class Russian extends Stem
      * Step 3: Search for a DERIVATIONAL ending in R2 (i.e. the entire ending must lie in R2),
      * and if one is found, remove it.
      */
-    private function step3()
+    private function step3(): ?bool
     {
         if ($position = $this->searchIfInRv(self::$derivational) !== false && $this->inR2($position)) {
             $this->word = UTF8::substr($this->word, 0, $position);
@@ -164,7 +164,7 @@ class Russian extends Stem
      *  Step 4: (1) Undouble н (n), or, (2) if the word ends with a SUPERLATIVE ending, remove it
      *  and undouble н (n), or (3) if the word ends ь (') (soft sign) remove it.
      */
-    private function step4()
+    private function step4(): ?bool
     {
         // (2) if the word ends with a SUPERLATIVE ending, remove it
         if ( ($position = $this->searchIfInRv(self::$superlative)) !== false) {
@@ -188,7 +188,7 @@ class Russian extends Stem
     /**
      *  In any word, RV is the region after the first vowel, or the end of the word if it contains no vowel.
      */
-    protected function rv()
+    protected function rv(): bool
     {
         $length = UTF8::strlen($this->word);
 

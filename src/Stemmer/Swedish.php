@@ -20,7 +20,7 @@ class Swedish extends Stem
     /**
      * {@inheritdoc}
      */
-    public function stem($word)
+    public function stem($word): string
     {
         // we do ALL in UTF-8
         if (!UTF8::is_utf8($word)) {
@@ -51,9 +51,8 @@ class Swedish extends Stem
      * b   c   d   f   g   h   j   k   l   m   n   o   p   r   t   v   y
      *
      * @param string $ending
-     * @return boolean
      */
-    private function hasValidSEnding($word)
+    private function hasValidSEnding(string $word): bool
     {
         $lastLetter = UTF8::substr($word, -1, 1);
         return in_array($lastLetter, ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 't', 'v', 'y']);
@@ -63,7 +62,7 @@ class Swedish extends Stem
      * Step 1
      * Search for the longest among the following suffixes in R1, and perform the action indicated.
      */
-    private function step1()
+    private function step1(): ?bool
     {
         // a   arna   erna   heterna   orna   ad   e   ade   ande   arne   are   aste   en   anden   aren   heten
         // ern   ar   er   heter   or   as   arnas   ernas   ornas   es   ades   andes   ens   arens   hetens
@@ -93,7 +92,7 @@ class Swedish extends Stem
      * Step 2
      * Search for one of the following suffixes in R1, and if found delete the last letter.
      */
-    private function step2()
+    private function step2(): void
     {
         // dd   gd   nn   dt   gt   kt   tt
         if ($this->searchIfInR1(['dd', 'gd', 'nn', 'dt', 'gt', 'kt', 'tt']) !== false) {
@@ -105,7 +104,7 @@ class Swedish extends Stem
      * Step 3:
      * Search for the longest among the following suffixes in R1, and perform the action indicated.
      */
-    private function step3()
+    private function step3(): ?bool
     {
         // lig   ig   els
         //      delete

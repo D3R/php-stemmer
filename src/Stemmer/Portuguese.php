@@ -57,7 +57,7 @@ class Portuguese extends Stem
     /**
      * Step 1: Standard suffix removal
      */
-    private function step1()
+    private function step1(): bool
     {
         // delete if in R2
         if ( ($position = $this->search([
@@ -196,7 +196,7 @@ class Portuguese extends Stem
      * Step 2: Verb suffixes
      * Search for the longest among the following suffixes in RV, and if found, delete.
      */
-    private function step2()
+    private function step2(): bool
     {
         if ( ($position = $this->searchIfInRv([
             'aríamos', 'eríamos', 'iríamos', 'ássemos', 'êssemos', 'íssemos',
@@ -223,7 +223,7 @@ class Portuguese extends Stem
      * Step 3: d-suffixes
      *
      */
-    private function step3()
+    private function step3(): bool
     {
         // Delete suffix i if in RV and preceded by c
         if ($this->searchIfInRv(['i']) !== false) {
@@ -240,7 +240,7 @@ class Portuguese extends Stem
     /**
      * Step 4
      */
-    private function step4()
+    private function step4(): bool
     {
         // If the word ends with one of the suffixes "os   a   i   o   á   í   ó" in RV, delete it
         if ( ($position = $this->searchIfInRv(['os', 'a', 'i', 'o','á', 'í', 'ó'])) !== false) {
@@ -253,7 +253,7 @@ class Portuguese extends Stem
     /**
      * Step 5
      */
-    private function step5()
+    private function step5(): bool
     {
         // If the word ends with one of "e   é   ê" in RV, delete it, and if preceded by gu (or ci) with the u (or i) in RV, delete the u (or i).
         if ($this->searchIfInRv(['e', 'é', 'ê']) !== false) {
@@ -272,7 +272,7 @@ class Portuguese extends Stem
     /**
      * Finally
      */
-    private function finish()
+    private function finish(): void
     {
         // turn U and Y back into lower case, and remove the umlaut accent from a, o and u.
         $this->word = str_replace(['a~', 'o~'], ['ã', 'õ'], $this->word);

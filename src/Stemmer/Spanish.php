@@ -20,7 +20,7 @@ class Spanish extends Stem
     /**
      * {@inheritdoc}
      */
-    public function stem($word)
+    public function stem($word): string
     {
         // we do ALL in UTF-8
         if (!UTF8::is_utf8($word)) {
@@ -68,14 +68,14 @@ class Spanish extends Stem
      *  in RV. In the case of (c), yendo must lie in RV, but the preceding u can be outside it.
      *  In the case of (a), deletion is followed by removing the acute accent (for example, haciéndola -> haciendo).
      */
-    private function step0()
+    private function step0(): bool
     {
         if ( ($position = $this->searchIfInRv(['selas', 'selos', 'las', 'los', 'les', 'nos', 'selo', 'sela', 'me', 'se', 'la', 'le', 'lo' ])) != false) {
             $suffixe = UTF8::substr($this->word, $position);
 
             // a
             $a = ['iéndo', 'ándo', 'ár', 'ér', 'ír'];
-            $a = array_map(function($item) use ($suffixe) {
+            $a = array_map(function(string $item) use ($suffixe): string {
                 return $item . $suffixe;
             }, $a);
 
@@ -90,7 +90,7 @@ class Spanish extends Stem
 
             // b
             $b = ['iendo', 'ando', 'ar', 'er', 'ir'];
-            $b = array_map(function($item) use ($suffixe) {
+            $b = array_map(function(string $item) use ($suffixe): string {
                 return $item . $suffixe;
             }, $b);
 
@@ -115,7 +115,7 @@ class Spanish extends Stem
     /**
      * Step 1
      */
-    private function step1()
+    private function step1(): bool
     {
         // anza   anzas   ico   ica   icos   icas   ismo   ismos   able   ables   ible   ibles   ista
         // istas   oso   osa   osos   osas   amiento   amientos   imiento   imientos
@@ -255,7 +255,7 @@ class Spanish extends Stem
     /**
      * Step 2a: Verb suffixes beginning y
      */
-    private function step2a()
+    private function step2a(): bool
     {
         // if found, delete if preceded by u
         // (Note that the preceding u need not be in RV.)
@@ -276,7 +276,7 @@ class Spanish extends Stem
      * Step 2b: Other verb suffixes
      *      Search for the longest among the following suffixes in RV, and perform the action indicated.
      */
-    private function step2b()
+    private function step2b(): ?bool
     {
         //      delete
         if ( ($position = $this->searchIfInRv([
@@ -312,7 +312,7 @@ class Spanish extends Stem
      * Step 3: residual suffix
      * Search for the longest among the following suffixes in RV, and perform the action indicated.
      */
-    private function step3()
+    private function step3(): bool
     {
         // os   a   o   á   í   ó
         //      delete if in RV
@@ -342,7 +342,7 @@ class Spanish extends Stem
      * And finally:
      * Remove acute accents
      */
-    private function finish()
+    private function finish(): void
     {
         $this->word = str_replace(['á', 'í', 'ó', 'é', 'ú'], ['a', 'i', 'o', 'e', 'u'], $this->word);
     }

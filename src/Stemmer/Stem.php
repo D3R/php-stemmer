@@ -132,7 +132,7 @@ abstract class Stem implements Stemmer
      * R1 : $in = $this->word
      * R2 : $in = R1
      */
-    protected function rx($in)
+    protected function rx(string $in)
     {
         $length = UTF8::strlen($in);
 

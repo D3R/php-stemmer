@@ -9,7 +9,7 @@ use Wamania\Snowball\StemmerFactory;
 
 class FactoryTest extends TestCase
 {
-    public function testFactory()
+    public function testFactory(): void
     {
         $isoCodes = [
             'ca' => \Wamania\Snowball\Stemmer\Catalan::class,

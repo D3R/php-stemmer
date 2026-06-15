@@ -20,7 +20,7 @@ class French extends Stem
     /**
      * {@inheritdoc}
      */
-    public function stem($word)
+    public function stem($word): string
     {
         // we do ALL in UTF-8
         if (!UTF8::is_utf8($word)) {
@@ -75,7 +75,7 @@ class French extends Stem
      *      yeux 		-> 		Yeux
      *      quand 		-> 		qUand
      */
-    private function step0()
+    private function step0(): void
     {
         $this->word = preg_replace('#([q])u#u', '$1U', $this->word);
         $this->word = preg_replace('#(['.$this->plainVowels.'])y#u', '$1Y', $this->word);
@@ -90,7 +90,7 @@ class French extends Stem
      *
      * @return integer Next step number
      */
-    private function step1()
+    private function step1(): int
     {
         // ance   iqUe   isme   able   iste   eux   ances   iqUes   ismes   ables   istes
         //     delete if in R2
@@ -329,7 +329,7 @@ class French extends Stem
      *      issent   isses   issez   issiez   issions   issons   it
      *  (Note that the non-vowel itself must also be in RV.)
      */
-    private function step2a()
+    private function step2a(): bool
     {
         if ( ($position = $this->searchIfInRv([
             'îmes', 'îtes', 'ît', 'ies', 'ie', 'iraIent', 'irais', 'irait', 'irai', 'iras', 'ira', 'irent', 'irez', 'iriez',
@@ -352,7 +352,7 @@ class French extends Stem
      * Do step 2b if step 2a was done, but failed to remove a suffix.
      * Step 2b: Other verb suffixes
      */
-    private function step2b()
+    private function step2b(): bool
     {
         // é   ée   ées   és   èrent   er   era   erai   eraIent   erais   erait   eras   erez   eriez   erions   erons   eront   ez   iez
         //      delete
@@ -400,7 +400,7 @@ class French extends Stem
     /**
      * Step 3: Replace final Y with i or final ç with c
      */
-    private function step3()
+    private function step3(): void
     {
         $this->word = preg_replace('#(Y)$#u', 'i', $this->word);
         $this->word = preg_replace('#(ç)$#u', 'c', $this->word);
@@ -409,7 +409,7 @@ class French extends Stem
     /**
      * Step 4: Residual suffix
      */
-    private function step4()
+    private function step4(): bool
     {
         //If the word ends s, not preceded by a, i, o, u, è or s, delete it.
         if (preg_match('#[^aiouès]s$#', $this->word)) {
@@ -456,7 +456,7 @@ class French extends Stem
      * Step 5: Undouble
      * If the word ends enn, onn, ett, ell or eill, delete the last letter
      */
-    private function step5()
+    private function step5(): void
     {
         if ($this->search(['enn', 'onn', 'ett', 'ell', 'eill']) !== false) {
             $this->word = UTF8::substr($this->word, 0, -1);
@@ -467,7 +467,7 @@ class French extends Stem
      * Step 6: Un-accent
      * If the words ends é or è followed by at least one non-vowel, remove the accent from the e.
      */
-    private function step6()
+    private function step6(): void
     {
         $this->word = preg_replace('#(é|è)([^'.$this->plainVowels.']+)$#u', 'e$2', $this->word);
     }
@@ -476,7 +476,7 @@ class French extends Stem
      * And finally:
      * Turn any remaining I, U and Y letters in the word back into lower case.
      */
-    private function finish()
+    private function finish(): void
     {
         $this->word = str_replace(['I','U','Y'], ['i', 'u', 'y'], $this->word);
     }
@@ -487,7 +487,7 @@ class French extends Stem
      *  or the end of the word if these positions cannot be found.
      *  (Exceptionally, par, col or tap, at the begining of a word is also taken to define RV as the region to their right.)
      */
-    protected function rv()
+    protected function rv(): bool
     {
         $length = UTF8::strlen($this->word);
 
