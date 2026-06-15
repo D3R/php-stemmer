@@ -21,6 +21,4 @@ return RectorConfig::configure()
     ->withComposerBased(
         phpunit: true,
     )
-    // ->withTypeCoverageLevel(100)
-    // ->withDeadCodeLevel(100)
     ;
